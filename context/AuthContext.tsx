@@ -30,9 +30,15 @@ export type User = {
   permissions: Array<never>
 }
 
+export type Permissions = {
+  permissions: Array<Permission>
+}
+
 export const AuthContext = createContext({
   login: (authTokens: AuthTokens) => {},
-  logout: () => {}
+  logout: () => {},
+  setPermission: (permissions: Array<string>) => {},
+  removePermissions: () => {}
 });
 
 interface Props {
@@ -48,14 +54,26 @@ export default function AuthContextProvider({children}:Props) {
     Cookies.remove("authTokens");
   }, []);
 
+  const setPermission = useCallback(function (permissions: Array<string>){
+    Cookies.set("permissions_current", JSON.stringify(permissions))
+  }, [])
+
+  const removePermissions = useCallback(function () { 
+    Cookies.remove("permissions_current")
+  }, [])
+
+
+
   AxiosInterceptors()
 
   const value = useMemo(
     () => ({
       login,
-      logout
+      logout,
+      setPermission,
+      removePermissions
     }),
-    [login, logout]
+    [login, logout, setPermission, removePermissions]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

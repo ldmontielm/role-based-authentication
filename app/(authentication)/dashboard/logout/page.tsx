@@ -6,11 +6,12 @@ import { useRouter } from 'next/navigation'
 
 export default function page() {
 
-    const {logout} = useAuthContext()
+    const {logout, removePermissions} = useAuthContext()
     const router = useRouter()
 
     useEffect(() => {
         logout()
+        removePermissions()
         router.push("/login")
     })
 
