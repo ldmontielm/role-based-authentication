@@ -29,7 +29,7 @@ const formSchema = z.object({
 
 export default function FormLogin() {
   const router = useRouter()
-  const { login, loginUser } = useAuthContext();
+  const { login } = useAuthContext();
   
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,7 +40,6 @@ export default function FormLogin() {
     const data = await accessTokenLogin(credentials)
     if(data !== undefined){
       login(data.data as unknown as AuthTokens);
-      loginUser()
       router.push("/dashboard");
     }
   }

@@ -10,7 +10,7 @@ import {
 } from "react";
 import Cookies from "js-cookie";
 import { AxiosInterceptors } from "@/interceptors/axios.interceptor";
-import { getCurrentUsertActivate } from "@/app/dashboard/services/dashboard.service";
+
 
 export type AuthTokens = {
   access_token: string;
@@ -30,19 +30,9 @@ export type User = {
   permissions: Array<never>
 }
 
-const AUTH_TOKENS_KEY = "NEXT_JS_AUTH";
-
 export const AuthContext = createContext({
   login: (authTokens: AuthTokens) => {},
-  logout: () => {},
-  loginUser: () => {},
-  user: {
-    username: "",
-    email: "",
-    full_name: "",
-    status: "",
-    permissions: []
-  }
+  logout: () => {}
 });
 
 interface Props {
@@ -50,16 +40,6 @@ interface Props {
 }
 
 export default function AuthContextProvider({children}:Props) {
-
-  const [user, setUser] = useState<User>({
-    username: "",
-    email: "",
-    full_name: "",
-    status: "",
-    permissions: []
-  })
-
-
   const login = useCallback(function (authTokens: AuthTokens) {
     Cookies.set("authTokens", JSON.stringify(authTokens));
   }, []);
@@ -68,21 +48,14 @@ export default function AuthContextProvider({children}:Props) {
     Cookies.remove("authTokens");
   }, []);
 
-  const loginUser = useCallback(async function () {
-    const data = await getCurrentUsertActivate()
-    setUser(data.data)
-  }, [])
-
   AxiosInterceptors()
 
   const value = useMemo(
     () => ({
       login,
-      logout,
-      loginUser,
-      user 
+      logout
     }),
-    [login, logout, loginUser, user]
+    [login, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
