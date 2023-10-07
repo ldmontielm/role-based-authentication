@@ -52,6 +52,7 @@ export default function AuthContextProvider({children}:Props) {
 
   const logout = useCallback(function () {
     Cookies.remove("authTokens");
+    Cookies.remove("permissions_current")
   }, []);
 
   const setPermission = useCallback(function (permissions: Array<string>){

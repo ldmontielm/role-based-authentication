@@ -1,6 +1,6 @@
 'use client'
 
-import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios"
+import axios, { InternalAxiosRequestConfig } from "axios"
 import { getValidationErrors } from "@/utilities";
 import { useToast } from "@/components/ui/use-toast";
 import Cookies from "js-cookie";
@@ -13,9 +13,9 @@ export const AxiosInterceptors = () => {
 
     const updateHeader = (request: InternalAxiosRequestConfig<any>) => {
         const authToken = Cookies.get("authTokens")
-        const token:AuthTokens = JSON.parse(authToken !== undefined ? authToken : "{access_token: '', token_type:''}")
+        const token:AuthTokens = JSON.parse(authToken !== undefined ? authToken : "")
 
-        request.headers['Authorization'] = `${token.token_type} ${token.access_token}`
+        request.headers['Authorization'] = `bearer ${token}`
         request.headers['Content-Type'] = 'application/json'
         return request
     }
@@ -31,6 +31,7 @@ export const AxiosInterceptors = () => {
     
     axios.interceptors.response.use(
         (response) => {
+            console.log("Holaaa")
             return response
         },
         (error) => {

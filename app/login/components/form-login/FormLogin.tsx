@@ -12,7 +12,8 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import { useAuthContext, AuthTokens } from '@/context/AuthContext';
 import { accessTokenLogin, Credentials } from '../../services/login.service';
-
+import { signIn } from 'next-auth/react';
+import { useToast } from '@/components/ui/use-toast';
 
 const formSchema = z.object({
   username: z.string({
@@ -30,18 +31,25 @@ const formSchema = z.object({
 export default function FormLogin() {
   const router = useRouter()
   const { login } = useAuthContext();
-  
+  const {toast} = useToast()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   })
   
   async function fetchPostLogin(credentials: Credentials) {
-    const data = await accessTokenLogin(credentials)
-    if(data !== undefined){
-      login(data.data as unknown as AuthTokens);
-      router.push("/dashboard");
+    const res = await signIn("credentials", {
+      username: credentials.username,
+      password: credentials.password,
+      redirect: false
+    })
+    
+    if (res?.ok) {
+      return router.push("/dashboard")
     }
+    else{
+      toast({variant: "destructive", title: "CREDENCIALES INVALIDAS", description:"Correo y/o contraseña invalidas"})
+    };
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {

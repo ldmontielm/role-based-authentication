@@ -1,9 +1,9 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import AuthContextProvider from '../context/AuthContext'
+// import AuthContextProvider from '../context/AuthContext'
 import { Toaster } from '@/components/ui/toaster'
-
+import NextAuthProvider from '@/context/NextAuthProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,14 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthContextProvider>
+        <NextAuthProvider>
           <main className="p-4">
             <div className="mx-auto max-w-5xl w-full text-sm">
               {children}
             </div>
           </main>
           <Toaster />
-        </AuthContextProvider>
+        </NextAuthProvider>
       </body>
     </html>
   )
