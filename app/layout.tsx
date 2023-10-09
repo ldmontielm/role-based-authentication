@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 // import AuthContextProvider from '../context/AuthContext'
 import { Toaster } from '@/components/ui/toaster'
 import NextAuthProvider from '@/context/NextAuthProvider'
-
+import { Navbar } from '@/components/admin-components'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -23,8 +23,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProvider>
-          <main className="p-4">
+          <main className="p-4 bg-white h-screen">
             <div className="mx-auto max-w-5xl w-full text-sm">
+              <Navbar />
               {children}
             </div>
           </main>

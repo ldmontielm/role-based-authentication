@@ -1,5 +1,3 @@
-import { Navbar } from "@/components/admin-components"
-
 export default function RootLayout({
   children,
 }: {
@@ -7,7 +5,7 @@ export default function RootLayout({
 }) {
   return (
     <div className="mx-auto max-w-5xl w-full text-sm">
-        <Navbar />
+
         {children}
     </div>
   )

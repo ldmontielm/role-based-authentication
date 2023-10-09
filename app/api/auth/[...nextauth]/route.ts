@@ -1,6 +1,8 @@
 import NextAuth from "next-auth/next"
-import  CredentialsProvider  from "next-auth/providers/credentials"
+import CredentialsProvider from "next-auth/providers/credentials"
 import axios from "axios"
+import { setCookie } from "@/utilities"
+
 
 const handler = NextAuth({
     providers:[
@@ -34,7 +36,6 @@ const handler = NextAuth({
                     headers: { Authorization: `Bearer ${user.access_token}` },
                 })
                 token.access_token = user.access_token;
-                token.refresh_token = user.token_type;
                 token.user = res.data
             }
             return token;

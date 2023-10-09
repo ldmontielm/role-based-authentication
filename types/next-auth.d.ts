@@ -14,7 +14,7 @@ declare module "next-auth" {
   interface User extends DefaultUser {
     // Define las propiedades de tu usuario aquí
     access_token: string,
-    token_type: string,
+    refresh_token: string,
     username: string,
     fullname: string,
     permissions: Array<string>,
@@ -29,7 +29,8 @@ declare module "next-auth" {
       email: string,
       status: boolean,
     },
-    access_token: string
+    access_token: string,
+    refresh_token: string
   }
 }
 

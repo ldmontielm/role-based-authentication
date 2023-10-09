@@ -1,19 +1,11 @@
 'use client'
 
-import {useEffect, useReducer} from 'react'
-import { useAuthContext } from '@/context/AuthContext'
-import { useRouter } from 'next/navigation'
+import {useEffect} from 'react'
+import { signOut } from 'next-auth/react'
 
 export default function page() {
-
-    const {logout, removePermissions} = useAuthContext()
-    const router = useRouter()
-
     useEffect(() => {
-        logout()
-        removePermissions()
-        router.push("/login")
+        signOut()
     })
-
     return null
 }
